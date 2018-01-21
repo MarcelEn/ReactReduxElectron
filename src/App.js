@@ -2,18 +2,13 @@ import React, { Component } from 'react';
 import reactsvg from './react.svg';
 import electronpng from './electron.png';
 import './App.css';
+import { connect } from 'react-redux';
 const electron = window.require('electron');
 const fs = electron.remote.require('fs');
 const path = electron.remote.require('path');
 const ipcRenderer = electron.ipcRenderer;
 const remote = electron.remote;
 
-
-@connect((store)=>{
-  return {
-
-  }
-})
 class App extends Component {
   constructor(props) {
     super(props);
@@ -38,7 +33,7 @@ class App extends Component {
     })
   }
   render() {
-    console.log(this.props);
+    console.log(this.props, "------------------------");
     return (
       <div className="App">
         <header className="App-header">
@@ -47,7 +42,7 @@ class App extends Component {
         </header>
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
-      </p>
+        </p>
         <header className="App-header">
           <img src={electronpng} className="logo" alt="electronsvg" />
           <h1 className="App-title">Welcome to Electron</h1>
@@ -55,9 +50,36 @@ class App extends Component {
         <p className="App-intro">
           Make a new Window <b onClick={this.openNewWindow}>here</b>.
         </p>
+        <header className="App-header">
+          <img src={electronpng} className="logo" alt="electronsvg" />
+          <h1 className="App-title">Welcome to Electron</h1>
+        </header>
+        <p className="App-intro">
+          See Redux working across multiple Windows <b onClick={this.props.doDEC}>-</b>{this.props.number}<b onClick={this.props.doINC}>+</b>.
+        </p>
       </div >
     );
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    ...state.example
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    doINC: () => {
+      dispatch({ type: 'INC', payload: 1 })
+    },
+    doDEC: () => {
+      dispatch({ type: 'DEC', payload: 1 })
+    }
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
