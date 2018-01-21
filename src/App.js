@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import reactsvg from './react.svg';
+import electronpng from './electron.png';
 import './App.css';
 const electron = window.require('electron');
 const fs = electron.remote.require('fs');
@@ -8,7 +9,11 @@ const ipcRenderer = electron.ipcRenderer;
 const remote = electron.remote;
 
 
+@connect((store)=>{
+  return {
 
+  }
+})
 class App extends Component {
   constructor(props) {
     super(props);
@@ -33,15 +38,22 @@ class App extends Component {
     })
   }
   render() {
+    console.log(this.props);
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+          <img src={reactsvg} className="logo" alt="reactsvg" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.<br />
-          Or make a new Window with Electron <b onClick={this.openNewWindow}>here</b>.
+          To get started, edit <code>src/App.js</code> and save to reload.
+      </p>
+        <header className="App-header">
+          <img src={electronpng} className="logo" alt="electronsvg" />
+          <h1 className="App-title">Welcome to Electron</h1>
+        </header>
+        <p className="App-intro">
+          Make a new Window <b onClick={this.openNewWindow}>here</b>.
         </p>
       </div >
     );
