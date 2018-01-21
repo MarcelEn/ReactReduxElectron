@@ -16,7 +16,7 @@ let getStartUrl = (file) => {
     if(!file){
         file = '';
     }
-    return process.env.ELECTRON_START_URL || url.format({
+    return process.env.ELECTRON_START_URL ? process.env.ELECTRON_START_URL + '/' + file : url.format({
         pathname: path.join(__dirname, '/../build/' + file),
         protocol: 'file:',
         slashes: true
