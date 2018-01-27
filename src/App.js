@@ -10,30 +10,7 @@ const ipcRenderer = electron.ipcRenderer;
 const remote = electron.remote;
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      indexDir: null
-    }
-    this.openNewWindow = this.openNewWindow.bind(this);
-  }
-  openNewWindow() {
-    let win = new remote.BrowserWindow({ width: 400, height: 320 });
-    win.on('close', function () { win = null });
-    win.loadURL(this.state.indexDir);
-    win.show();
-  }
-  componentDidUpdate() {
-
-  }
-  componentWillMount() {
-    ipcRenderer.send('getDirname-request', 'index.html')
-    ipcRenderer.on('getDirname-reply', (event, arg) => {
-      this.setState({ indexDir: arg });
-    })
-  }
   render() {
-    console.log(this.props, "------------------------");
     return (
       <div className="App">
         <header className="App-header">
@@ -48,14 +25,16 @@ class App extends Component {
           <h1 className="App-title">Welcome to Electron</h1>
         </header>
         <p className="App-intro">
-          Make a new Window <b onClick={this.openNewWindow}>here</b>.
+          Make a new Window <b onClick={this.props.openNewWindow}>here</b>.
+          <button onClick={this.makeSomething}>Make something</button>
         </p>
         <header className="App-header">
           <img src={electronpng} className="logo" alt="electronsvg" />
           <h1 className="App-title">Welcome to Electron</h1>
         </header>
         <p className="App-intro">
-          See Redux working across multiple Windows <b onClick={this.props.doDEC}>-</b>{this.props.number}<b onClick={this.props.doINC}>+</b>.
+          See Redux working in this window <b onClick={this.props.doDEC}>-</b>{this.props.local.number}<b onClick={this.props.doINC}>+</b>.<br />
+          See Redux working across multiple Windows <b onClick={this.props.doDECGlobal}>-</b>{this.props.global.number}<b onClick={this.props.doINCGlobal}>+</b>.
         </p>
       </div >
     );
@@ -64,17 +43,26 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    ...state.example
+    ...state
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
+    openNewWindow: () => {
+      dispatch({ type: 'ADD_WINDOW', global: true });
+    },
     doINC: () => {
       dispatch({ type: 'INC', payload: 1 })
     },
     doDEC: () => {
       dispatch({ type: 'DEC', payload: 1 })
+    },
+    doINCGlobal: () => {
+      dispatch({ type: 'INC', payload: 1, global: true })
+    },
+    doDECGlobal: () => {
+      dispatch({ type: 'DEC', payload: 1, global: true })
     }
   }
 }
