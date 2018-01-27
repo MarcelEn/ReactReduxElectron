@@ -8,7 +8,7 @@ import logger from "redux-logger";
 import thunk from "redux-thunk";
 import { Provider } from "react-redux";
 
-
+//TODO: https://github.com/hardchor/electron-redux
 const exampleReducer = (state = { number: 0 }, action) => {
     switch (action.type) {
         case 'INC':
@@ -25,18 +25,18 @@ const reducers = combineReducers({
 const middleware = applyMiddleware(thunk, logger);
 const store = createStore(reducers, middleware);
 
-store.subscribe(() => {
-    console.log('store changed', store.getState());
-});
+// store.subscribe(() => {
+//     console.log('store changed', store.getState());
+// });
 
-store.dispatch({ type: 'INC', payload: 100 });
+// store.dispatch({ type: 'INC', payload: 100 });
 
-store.dispatch(dispatch => {
-    dispatch({ type: 'DEC', payload: 25 });
-    setTimeout(() => {
-        dispatch({ type: 'INC', payload: 5 });
-    }, 2000);
-});
+// store.dispatch(dispatch => {
+//     dispatch({ type: 'DEC', payload: 25 });
+//     setTimeout(() => {
+//         dispatch({ type: 'INC', payload: 5 });
+//     }, 2000);
+// });
 
 
 

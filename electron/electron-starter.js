@@ -1,3 +1,13 @@
+//Redux:
+// const redux = require("redux");
+// const {applyMiddleware} = redux
+// const {createStore} = redux
+// const {combineReducers} = redux
+// const logger = require("redux-logger");
+// const thunk = require("redux-thunk");
+import redux from "redux";
+
+
 const electron = require('electron')
 // Module to control application life.
 const app = electron.app
@@ -13,7 +23,7 @@ const ipc = require('electron').ipcMain
 let mainWindow
 
 let getStartUrl = (file) => {
-    if(!file){
+    if (!file) {
         file = '';
     }
     return process.env.ELECTRON_START_URL ? process.env.ELECTRON_START_URL + '/' + file : url.format({
@@ -29,7 +39,7 @@ function createWindow() {
     mainWindow = new BrowserWindow({ width: 800, height: 600 })
 
     // and load the index.html of the app.
-   
+
     mainWindow.loadURL(getStartUrl('index.html'));
 
     // Open the DevTools.
@@ -49,7 +59,38 @@ function createWindow() {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
+app.on('ready', () => {
+    
+    // const exampleReducer = (state = { number: 0 }, action) => {
+    //     switch (action.type) {
+    //         case 'INC':
+    //             return { number: state.number + action.payload };
+    //         case 'DEC':
+    //             return { number: state.number + action.payload };
+    //     }
+    //     return state;
+    // };
+    // const reducers = combineReducers({
+    //     example: exampleReducer
+    // });
+    // const middleware = applyMiddleware(thunk, logger);
+    // const store = createStore(reducers, middleware);
+
+    // store.subscribe(() => {
+    //     console.log('store changed', store.getState());
+    // });
+
+    // store.dispatch({ type: 'INC', payload: 100 });
+
+    // store.dispatch(dispatch => {
+    //     dispatch({ type: 'DEC', payload: 25 });
+    //     setTimeout(() => {
+    //         dispatch({ type: 'INC', payload: 5 });
+    //     }, 2000);
+    // });
+
+    createWindow();
+})
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
